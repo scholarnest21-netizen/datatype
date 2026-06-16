@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python Fundamentals – ScholarNest</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #0D0F14;
+    --surface:   #141720;
+    --card:      #1A1E2C;
+    --border:    #252A3A;
+    --accent:    #5B8DEF;
+    --accent2:   #A78BFA;
+    --green:     #34D399;
+    --orange:    #FB923C;
+    --red:       #F87171;
+    --yellow:    #FBBF24;
+    --text:      #E2E8F0;
+    --muted:     #7C87A0;
+    --code-bg:   #0A0C12;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(13,15,20,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 60px;
+  }
+  .logo-area { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .logo-mark {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700; font-size: 14px; color: #fff;
+  }
+  .logo-text { font-weight: 700; font-size: 1rem; color: var(--text); }
+  .logo-text span { color: var(--accent); }
+  .nav-url { font-size: 0.78rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 5rem 2rem 3.5rem;
+    max-width: 900px; margin: 0 auto;
+    text-align: center;
+  }
+  .hero-eyebrow {
+    display: inline-block;
+    font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--accent); font-weight: 600;
+    border: 1px solid var(--accent);
+    border-radius: 20px; padding: 4px 14px;
+    margin-bottom: 1.4rem;
+  }
+  .hero h1 {
+    font-family: 'Lora', serif;
+    font-size: clamp(2rem, 6vw, 3.6rem);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.2rem;
+  }
+  .hero h1 em { font-style: italic; color: var(--accent2); }
+  .hero p {
+    font-size: 1.05rem; color: var(--muted);
+    max-width: 600px; margin: 0 auto 2rem;
+  }
+  .chapter-pills {
+    display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+    margin-top: 1.5rem;
+  }
+  .chapter-pills a {
+    font-size: 0.8rem; font-weight: 500;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 6px; padding: 6px 14px;
+    color: var(--muted); text-decoration: none;
+    transition: border-color .2s, color .2s;
+  }
+  .chapter-pills a:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── LAYOUT ── */
+  .content { max-width: 900px; margin: 0 auto; padding: 0 2rem 6rem; }
+
+  /* ── SECTION ── */
+  .section { margin-bottom: 5rem; }
+  .section-label {
+    font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent); font-weight: 600; margin-bottom: .6rem;
+  }
+  .section h2 {
+    font-family: 'Lora', serif;
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 600; margin-bottom: 1.2rem;
+    padding-bottom: .8rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .theory {
+    background: var(--card);
+    border-left: 3px solid var(--accent2);
+    border-radius: 0 10px 10px 0;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1.6rem;
+    font-size: 0.97rem; color: var(--text);
+    line-height: 1.8;
+  }
+  .theory p + p { margin-top: .8rem; }
+  .theory ul { padding-left: 1.4rem; margin-top: .6rem; }
+  .theory li { margin-bottom: .4rem; }
+
+  /* ── CODE BLOCK ── */
+  .code-block {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .code-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: .55rem 1rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(255,255,255,.03);
+  }
+  .code-title { font-size: 0.78rem; color: var(--muted); font-weight: 500; }
+  .dots { display: flex; gap: 6px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot.r { background: var(--red); }
+  .dot.y { background: var(--yellow); }
+  .dot.g { background: var(--green); }
+  .code-body { padding: 1.2rem 1.4rem; font-size: 0.85rem; line-height: 1.9; overflow-x: auto; }
+  .code-body pre { white-space: pre; }
+
+  /* syntax colours */
+  .kw   { color: #C084FC; font-weight: 500; }   /* keyword */
+  .fn   { color: #60A5FA; }                       /* built-in fn */
+  .str  { color: #34D399; }                       /* string */
+  .num  { color: #FB923C; }                       /* number */
+  .cmt  { color: #4B5563; font-style: italic; }   /* comment */
+  .var  { color: #E2E8F0; }                       /* variable */
+  .op   { color: #F472B6; }                       /* operator */
+  .out  { color: #A3E635; }                       /* output */
+  .type { color: #FBBF24; }                       /* type name */
+
+  /* ── OUTPUT BOX ── */
+  .output-block {
+    background: #080A0F;
+    border: 1px solid #1E2435;
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    padding: .9rem 1.4rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--green);
+    margin-top: -1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .output-block::before {
+    content: '▶ Output';
+    display: block;
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-bottom: .5rem;
+    letter-spacing: .06em;
+  }
+  .output-block pre { white-space: pre-wrap; }
+
+  /* ── CONCEPT GRID ── */
+  .concept-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem; margin-bottom: 1.6rem;
+  }
+  .concept-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.1rem;
+    transition: border-color .2s;
+  }
+  .concept-card:hover { border-color: var(--accent); }
+  .concept-card .type-badge {
+    display: inline-block;
+    font-size: 0.7rem; font-weight: 700; letter-spacing: .07em;
+    padding: 2px 8px; border-radius: 4px;
+    margin-bottom: .5rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .badge-int    { background: rgba(91,141,239,.15); color: #5B8DEF; }
+  .badge-float  { background: rgba(251,146,60,.15);  color: #FB923C; }
+  .badge-bool   { background: rgba(167,139,250,.15); color: #A78BFA; }
+  .badge-str    { background: rgba(52,211,153,.15);  color: #34D399; }
+  .badge-list   { background: rgba(248,113,113,.15); color: #F87171; }
+  .badge-tuple  { background: rgba(251,191,36,.15);  color: #FBBF24; }
+  .concept-card h4 { font-size: .9rem; font-weight: 600; margin-bottom: .3rem; }
+  .concept-card p  { font-size: .78rem; color: var(--muted); }
+
+  /* ── OPERATOR TABLE ── */
+  table {
+    width: 100%; border-collapse: collapse;
+    margin-bottom: 1.6rem; font-size: 0.88rem;
+  }
+  th {
+    background: var(--card); text-align: left;
+    padding: .6rem .9rem; border: 1px solid var(--border);
+    font-weight: 600; color: var(--accent);
+    font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;
+  }
+  td {
+    padding: .55rem .9rem; border: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace; font-size: 0.82rem;
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: rgba(255,255,255,.02); }
+  td:first-child { color: var(--orange); }
+  td:nth-child(2) { color: var(--muted); }
+  td:last-child   { color: var(--green); }
+
+  /* ── CALLOUT ── */
+  .callout {
+    border-radius: 10px; padding: 1rem 1.2rem;
+    margin-bottom: 1.4rem; font-size: .9rem;
+    display: flex; gap: .8rem; align-items: flex-start;
+  }
+  .callout.tip  { background: rgba(52,211,153,.07); border: 1px solid rgba(52,211,153,.25); }
+  .callout.warn { background: rgba(251,191,36,.07);  border: 1px solid rgba(251,191,36,.25); }
+  .callout.info { background: rgba(91,141,239,.07);  border: 1px solid rgba(91,141,239,.25); }
+  .callout-icon { font-size: 1.1rem; margin-top: .05rem; }
+  .callout-body { line-height: 1.65; color: var(--text); }
+  .callout-body strong { display: block; margin-bottom: .2rem; }
+
+  /* ── INTERACTIVE MODE TERMINAL ── */
+  .terminal {
+    background: #06080D;
+    border: 1px solid #1A2035;
+    border-radius: 10px; overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+  .terminal-bar {
+    background: #0F1320;
+    padding: .45rem 1rem;
+    display: flex; align-items: center; gap: 10px;
+    border-bottom: 1px solid #1A2035;
+  }
+  .terminal-bar span { font-size: .75rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+  .terminal-body { padding: 1rem 1.2rem; font-family: 'JetBrains Mono', monospace; font-size: .83rem; line-height: 2; }
+  .prompt { color: #5B8DEF; }
+  .t-out  { color: #34D399; }
+  .t-err  { color: #F87171; }
+
+  /* ── DIVIDER ── */
+  hr.fancy {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 3rem 0;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 2.5rem 1rem;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: .82rem;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 600px) {
+    .concept-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="logo-area" href="https://scholarnest21.netlify.app" target="_blank">
+    <div class="logo-mark">SN</div>
+    <span class="logo-text">Scholar<span>Nest</span></span>
+  </a>
+  <span class="nav-url">scholarnest21.netlify.app</span>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <span class="hero-eyebrow">Python – Unit 1</span>
+  <h1>Data Types, Expressions<br>&amp; <em>Statements</em></h1>
+  <p>A complete visual guide to Python's building blocks — with rich examples for every concept.</p>
+  <div class="chapter-pills">
+    <a href="#interpreter">Interpreter & Interactive</a>
+    <a href="#debugging">Debugging</a>
+    <a href="#types">Values & Types</a>
+    <a href="#variables">Variables</a>
+    <a href="#expressions">Expressions</a>
+    <a href="#statements">Statements</a>
+    <a href="#tuple">Tuple Assignment</a>
+    <a href="#precedence">Precedence</a>
+    <a href="#comments">Comments</a>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ═══════════════════════════════ 1. INTERPRETER ════════════════════════════ -->
+<div class="section" id="interpreter">
+  <div class="section-label">Chapter 01</div>
+  <h2>Python Interpreter &amp; Interactive Mode</h2>
+
+  <div class="theory">
+    <p><strong>Python Interpreter</strong> is a program that reads Python source code and executes it line by line. Unlike compiled languages (C/C++), Python translates and runs code on the fly without a separate compilation step.</p>
+    <p>Python has two primary modes of operation:</p>
+    <ul>
+      <li><strong>Script Mode</strong> — you write code in a <code>.py</code> file and run it: <code>python myfile.py</code></li>
+      <li><strong>Interactive Mode (REPL)</strong> — you type code directly into the terminal and see results instantly. REPL stands for <em>Read – Evaluate – Print – Loop</em>.</li>
+    </ul>
+    <p>Interactive mode is ideal for experimenting, testing snippets, and learning. You launch it by typing <code>python</code> or <code>python3</code> in your terminal.</p>
+  </div>
+
+  <div class="callout info">
+    <span class="callout-icon">💡</span>
+    <div class="callout-body"><strong>The &gt;&gt;&gt; Prompt</strong> When you see <code>&gt;&gt;&gt;</code>, Python is waiting for your input. Type any expression and press Enter — Python prints the result immediately.</div>
+  </div>
+
+  <!-- Interactive Mode demo -->
+  <div class="terminal">
+    <div class="terminal-bar">
+      <div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+      <span>Python 3.x Interactive Shell</span>
+    </div>
+    <div class="terminal-body">
+      <span class="prompt">&gt;&gt;&gt; </span><span class="kw">print</span>(<span class="str">"Hello, Python!"</span>)<br>
+      <span class="t-out">Hello, Python!</span><br>
+      <span class="prompt">&gt;&gt;&gt; </span><span class="num">2</span> <span class="op">+</span> <span class="num">3</span><br>
+      <span class="t-out">5</span><br>
+      <span class="prompt">&gt;&gt;&gt; </span><span class="fn">type</span>(<span class="num">42</span>)<br>
+      <span class="t-out">&lt;class 'int'&gt;</span><br>
+      <span class="prompt">&gt;&gt;&gt; </span><span class="num">7</span> <span class="op">/</span> <span class="num">2</span><br>
+      <span class="t-out">3.5</span><br>
+      <span class="prompt">&gt;&gt;&gt; </span><span class="var">name</span> <span class="op">=</span> <span class="str">"Alice"</span><br>
+      <span class="prompt">&gt;&gt;&gt; </span><span class="fn">print</span>(<span class="str">f"Welcome, <span class="op">{</span><span class="var">name</span><span class="op">}</span>!"</span>)<br>
+      <span class="t-out">Welcome, Alice!</span>
+    </div>
+  </div>
+
+  <!-- Script Mode example -->
+  <div class="code-block">
+    <div class="code-header">
+      <div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+      <span class="code-title">hello.py — Script Mode</span>
+    </div>
+    <div class="code-body"><pre><span class="cmt"># Save this as hello.py and run: python hello.py</span>
+<span class="fn">print</span>(<span class="str">"Hello from script mode!"</span>)
+<span class="var">x</span> <span class="op">=</span> <span class="num">10</span>
+<span class="var">y</span> <span class="op">=</span> <span class="num">20</span>
+<span class="fn">print</span>(<span class="str">f"Sum of <span class="op">{</span><span class="var">x</span><span class="op">}</span> and <span class="op">{</span><span class="var">y</span><span class="op">}</span> is <span class="op">{</span><span class="var">x</span> <span class="op">+</span> <span class="var">y</span><span class="op">}</span>"</span>)</pre></div>
+  </div>
+  <div class="output-block"><pre>Hello from script mode!
+Sum of 10 and 20 is 30</pre></div>
+</div>
+
+<!-- ═══════════════════════════════ 2. DEBUGGING ═══════════════════════════════ -->
+<div class="section" id="debugging">
+  <div class="section-label">Chapter 02</div>
+  <h2>Debugging</h2>
+
+  <div class="theory">
+    <p><strong>Debugging</strong> is the process of finding and fixing errors (bugs) in a program. Python has three types of errors:</p>
+    <ul>
+      <li><strong>Syntax Errors</strong> — code violates Python's grammar rules; the interpreter refuses to run it.</li>
+      <li><strong>Runtime Errors</strong> — code is grammatically correct but fails during execution (e.g. dividing by zero).</li>
+      <li><strong>Semantic / Logic Errors</strong> — code runs without crashing but produces wrong results.</li>
+    </ul>
+    <p>Common debugging strategies: read the error message carefully, use <code>print()</code> statements to trace values, isolate the problem to the smallest piece of code, and use Python's built-in debugger (<code>pdb</code>).</p>
+  </div>
+
+  <!-- Syntax Error -->
+  <div class="code-block">
+    <div class="code-header">
+      <div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+      <span class="code-title">Example 1 – Syntax Error</span>
+    </div>
+    <div class="code-body"><pre><span class="cmt"># Missing closing parenthesis</span>
+<span class="fn">print</span>(<span class="str">"Hello, World!"</span>   <span class="cmt"># ← SyntaxError here</span></pre></div>
+  </div>
+  <div class="output-block"><pre style="color:var(--red)">  File "example.py", line 2
+    print("Hello, World!"
+         ^
+SyntaxError: '(' was never closed</pre></div>
+
+  <!-- Runtime Error -->
+  <div class="code-block">
+    <div class="code-header">
+      <div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+      <span class="code-title">Example 2 – Runtime Error (ZeroDivisionError)</span>
+    </div>
+    <div class="code-body"><pre><span class="var">a</span> <span class="op">=</span> <span class="num">10</span>
+<span class="var">b</span> <span class="op">=</span> <span class="num">0</span>
+<span class="fn">print</span>(<span class="var">a</span> <span class="op">/</span> <span class="var">b</span>)   <span class="cmt"># Cannot divide by zero!</span></pre></div>
+  </div>
+  <div class="output-block"><pre style="color:var(--red)">ZeroDivisionError: division by zero</pre></div>
+
+  <!-- Semantic Error -->
+  <div class="code-block">
+    <div class="code-header">
+      <div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+      <span class="code-title">Example 3 – Semantic / Logic Error</span>
+    </div>
+    <div class="code-body"><pre><span class="cmt"># Calculating average — but divides by wrong number</span>
+<span class="var">total</span> <span class="op">=</span> <span class="num">90</span> <span class="op">+</span> <span class="num">85</span> <span class="op">+</span> <span class="num">78</span>
+<span class="var">average</span> <span class="op">=</span> <span class="var">total</span> <span class="op">/</span> <span class="num">2</span>   <span class="cmt"># BUG: should be / 3</span>
+<span class="fn">print</span>(<span class="str">"Average:"</span>, <span class="var">average</span>)</pre></div>
+  </div>
+  <div class="output-block"><pre>Average: 126.5   ← Wrong! Should be 84.33</pre></div>
+
+  <!-- Debugging with print -->
+  <div class="code-block">
+    <div class="code-header">
+      <div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+      <span class="code-title">Example 4 – Debugging with print()</span>
+    </div>
+    <div class="code-body"><pre><span class="kw">def</span> <span class="fn">calculate_area</span>(<span class="var">length</span>, <span class="var">width</span>):
+    <span class="fn">print</span>(<span class="str">f"DEBUG: length=<span class="op">{</span><span class="var">length</span><span class="op">}</span>, width=<span class="op">{</span><span class="var">width</span><span class="op">}</span>"</span>)   <span class="cmt"># debug</span>
+    <span class="var">area</span> <span class="op">=</span> <span class="var">length</span> <span class="op">*</span> <span class="var">width</span>
+    <span class="fn">print</span>(<span class="str">f"DEBUG: area=<span class="op">{</span><span class="var">area</span><span class="op">}</span>"</span>)                       <span class="cmt"># debug</span>
+    <span class="kw">return</span> <span class="var">area</span>
+
+<span class="var">result</span> <span class="op">=</span> <span class="fn">calculate_area</span>(<span class="num">5</span>, <span class="num">3</span>)
+<span class="fn">print</span>(<span class="str">"Area:"</span>, <span class="var">result</span>)</pre></div>
+  </div>
+  <div class="output-block"><pre>DEBUG: length=5, width=3
+DEBUG: area=15
+Area: 15</pre></div>
+</div>
+
+<!-- ═══════════════════════════════ 3. VALUES & TYPES ═════════════════════════ -->
+<div class="section" id="types">
+  <div class="section-label">Chapter 03</div>
+  <h2>Values &amp; Types</h2>
+
+  <div class="theory">
+    <p>Every value in Python has a <strong>data type</strong> that determines what kind of data it holds and what operations can be performed on it. Python is <em>dynamically typed</em> — you don't declare types; Python figures them out automatically.</p>
+    <p>Use the built-in <code>type()</code> function to check any value's type. The five core types are:</p>
+  </div>
+
+  <div class="concept-grid">
+    <div class="concept-card">
+      <div class="type-badge badge-int">int</div>
+      <h4>Integer</h4>
+      <p>Whole numbers, positive or negative, with no decimal point. e.g. <code>5</code>, <code>-99</code>, <code>1000</code></p>
+    </div>
+    <div class="concept-card">
+      <div class="type-badge badge-float">float</div>
+      <h4>Float</h4>
+      <p>Numbers with a decimal point or in scientific notation. e.g. <code>3.14</code>, <code>-0.5</code>, <code>2e8</code></p>
+    </div>
+    <div class="concept-card">
+      <div class="type-badge badge-bool">bool</div>
+      <h4>Boolean</h4>
+      <p>Logical values: only <code>True</code> or <code>False</code>. Used in conditions and comparisons.</p>
+    </div>
+    <div class="concept-card">
+      <div class="type-badge badge-str">str</div>
+      <h4>String</h4>
+      <p>A sequence of characters enclosed in quotes. e.g. <code>"hello"</code>, <code>'Python'</code></p>
+    </div>
+    <div class="concept-card">
+      <div class="type-badge badge-list">list</div>
+      <h4>List</h4>
+      <p>An ordered, mutable collection of items in square brackets. e.g. <code>[1, 2, 3]</code></p>
+    </div>
+  </div>
+
+  <!-- INT -->
+  <div class="code-block">
+    <div class="code-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><span class="code-title">int — Integer Examples</span></div>
+    <div class="code-body"><pre><span class="var">age</span>          <span class="op">=</span> <span class="num">20</span>
+<span class="var">temperature</span>  <span class="op">=</span> <span class="op">-</span><span class="num">15</span>
+<span class="var">population</span>   <span class="op">=</span> <span class="num">1_400_000_000</span>   <span class="cmt"># underscores for readability</span>
+<span class="var">binary_val</span>   <span class="op">=</span> <span class="num">0b1010</span>          <span class="cmt"># binary literal  → 10</span>
+<span class="var">hex_val</span>      <span class="op">=</span> <span class="num">0xFF</span>            <span class="cmt"># hex literal     → 255</span>
+
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="var">age</span>))           <span class="cmt"># &lt;class 'int'&gt;</span>
+<span class="fn">print</span>(<span class="var">age</span> <span class="op">+</span> <span class="num">5</span>)             <span class="cmt"># 25</span>
+<span class="fn">print</span>(<span class="var">population</span>)          <span class="cmt"># 1400000000</span>
+<span class="fn">print</span>(<span class="var">binary_val</span>, <span class="var">hex_val</span>) <span class="cmt"># 10  255</span></pre></div>
+  </div>
+  <div class="output-block"><pre>&lt;class 'int'&gt;
+25
+1400000000
+10 255</pre></div>
+
+  <!-- FLOAT -->
+  <div class="code-block">
+    <div class="code-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><span class="code-title">float — Float Examples</span></div>
+    <div class="code-body"><pre><span class="var">pi</span>        <span class="op">=</span> <span class="num">3.14159</span>
+<span class="var">gravity</span>   <span class="op">=</span> <span class="num">9.8</span>
+<span class="var">tiny</span>      <span class="op">=</span> <span class="num">1.5e-3</span>      <span class="cmt"># 0.0015 (scientific notation)</span>
+<span class="var">huge</span>      <span class="op">=</span> <span class="num">6.022e23</span>   <span class="cmt"># Avogadro's number</span>
+<span class="var">result</span>    <span class="op">=</span> <span class="num">10</span> <span class="op">/</span> <span class="num">3</span>      <span class="cmt"># division always gives float</span>
+
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="var">pi</span>))         <span class="cmt"># &lt;class 'float'&gt;</span>
+<span class="fn">print</span>(<span class="var">pi</span> <span class="op">*</span> <span class="num">2</span>)           <span class="cmt"># 6.28318</span>
+<span class="fn">print</span>(<span class="fn">round</span>(<span class="var">result</span>, <span class="num">4</span>)) <span class="cmt"># 3.3333</span>
+<span class="fn">print</span>(<span class="fn">int</span>(<span class="var">gravity</span>))     <span class="cmt"># 9  (truncates decimal)</span></pre></div>
+  </div>
+  <div class="output-block"><pre>&lt;class 'float'&gt;
+6.28318
+3.3333
+9</pre></div>
+
+  <!-- BOOLEAN -->
+  <div class="code-block">
+    <div class="code-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><span class="code-title">bool — Boolean Examples</span></div>
+    <div class="code-body"><pre><span class="var">is_student</span>   <span class="op">=</span> <span class="kw">True</span>
+<span class="var">is_raining</span>   <span class="op">=</span> <span class="kw">False</span>
+<span class="var">has_passed</span>   <span class="op">=</span> <span class="num">85</span> <span class="op">&gt;=</span> <span class="num">50</span>          <span class="cmt"># True</span>
+<span class="var">is_even</span>      <span class="op">=</span> <span class="num">7</span> <span class="op">%</span> <span class="num">2</span> <span class="op">==</span> <span class="num">0</span>        <span class="cmt"># False</span>
+
+<span class="cmt"># Booleans are secretly integers!</span>
+<span class="fn">print</span>(<span class="kw">True</span>  <span class="op">+</span> <span class="kw">True</span>)   <span class="cmt"># 2</span>
+<span class="fn">print</span>(<span class="kw">False</span> <span class="op">+</span> <span class="num">10</span>)    <span class="cmt"># 10</span>
+<span class="fn">print</span>(<span class="fn">int</span>(<span class="kw">True</span>))      <span class="cmt"># 1</span>
+<span class="fn">print</span>(<span class="fn">bool</span>(<span class="num">0</span>))        <span class="cmt"># False  (0 is falsy)</span>
+<span class="fn">print</span>(<span class="fn">bool</span>(<span class="str">""</span>))       <span class="cmt"># False  (empty string is falsy)</span>
+<span class="fn">print</span>(<span class="fn">bool</span>(<span class="str">"hello"</span>))  <span class="cmt"># True</span>
+
+<span class="kw">if</span> <span class="var">is_student</span> <span class="kw">and</span> <span class="var">has_passed</span>:
+    <span class="fn">print</span>(<span class="str">"Congratulations, you passed!"</span>)</pre></div>
+  </div>
+  <div class="output-block"><pre>2
+10
+1
+False
+False
+True
+Congratulations, you passed!</pre></div>
+
+  <!-- STRING -->
+  <div class="code-block">
+    <div class="code-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><span class="code-title">str — String Examples</span></div>
+    <div class="code-body"><pre><span class="var">name</span>      <span class="op">=</span> <span class="str">"ScholarNest"</span>
+<span class="var">greeting</span>  <span class="op">=</span> <span class="str">'Hello, Python!'</span>
+<span class="var">multiline</span> <span class="op">=</span> <span class="str">"""This is
+a multiline
+string."""</span>
+
+<span class="cmt"># Indexing and slicing</span>
+<span class="fn">print</span>(<span class="var">name</span>[<span class="num">0</span>])          <span class="cmt"># S  (first character)</span>
+<span class="fn">print</span>(<span class="var">name</span>[<span class="op">-</span><span class="num">1</span>])         <span class="cmt"># t  (last character)</span>
+<span class="fn">print</span>(<span class="var">name</span>[<span class="num">0</span>:<span class="num">6</span>])        <span class="cmt"># Schola</span>
+
+<span class="cmt"># String methods</span>
+<span class="fn">print</span>(<span class="var">name</span>.<span class="fn">upper</span>())     <span class="cmt"># SCHOLARNEST</span>
+<span class="fn">print</span>(<span class="var">name</span>.<span class="fn">lower</span>())     <span class="cmt"># scholarnest</span>
+<span class="fn">print</span>(<span class="var">name</span>.<span class="fn">replace</span>(<span class="str">"Nest"</span>, <span class="str">"Hub"</span>))  <span class="cmt"># ScholarHub</span>
+<span class="fn">print</span>(<span class="fn">len</span>(<span class="var">name</span>))         <span class="cmt"># 11</span>
+
+<span class="cmt"># String concatenation and repetition</span>
+<span class="fn">print</span>(<span class="str">"Python"</span> <span class="op">+</span> <span class="str">" "</span> <span class="op">+</span> <span class="str">"rocks"</span>)  <span class="cmt"># Python rocks</span>
+<span class="fn">print</span>(<span class="str">"Ha"</span> <span class="op">*</span> <span class="num">3</span>)                    <span class="cmt"># HaHaHa</span>
+
+<span class="cmt"># f-strings (formatted strings)</span>
+<span class="var">score</span> <span class="op">=</span> <span class="num">95</span>
+<span class="fn">print</span>(<span class="str">f"<span class="op">{</span><span class="var">name</span><span class="op">}</span> student scored <span class="op">{</span><span class="var">score</span><span class="op">}</span>%"</span>)  <span class="cmt"># ScholarNest student scored 95%</span></pre></div>
+  </div>
+  <div class="output-block"><pre>S
+t
+Schola
+SCHOLARNEST
+scholarnest
+ScholarHub
+11
+Python rocks
+HaHaHa
+ScholarNest student scored 95%</pre></div>
+
+  <!-- LIST -->
+  <div class="code-block">
+    <div class="code-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><span class="code-title">list — List Examples</span></div>
+    <div class="code-body"><pre><span class="var">fruits</span>   <span class="op">=</span> [<span class="str">"apple"</span>, <span class="str">"banana"</span>, <span class="str">"cherry"</span>]
+<span class="var">numbers</span>  <span class="op">=</span> [<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>, <span class="num">40</span>, <span class="num">50</span>]
+<span class="var">mixed</span>    <span class="op">=</span> [<span class="num">1</span>, <span class="str">"hello"</span>, <span class="num">3.14</span>, <span class="kw">True</span>]  <span class="cmt"># lists can mix types</span>
+
+<span class="cmt"># Indexing</span>
+<span class="fn">print</span>(<span class="var">fruits</span>[<span class="num">0</span>])          <span class="cmt"># apple</span>
+<span class="fn">print</span>(<span class="var">fruits</span>[<span class="op">-</span><span class="num">1</span>])         <span class="cmt"># cherry</span>
+
+<span class="cmt"># Slicing</span>
+<span class="fn">print</span>(<span class="var">numbers</span>[<span class="num">1</span>:<span class="num">4</span>])       <span class="cmt"># [20, 30, 40]</span>
+
+<span class="cmt"># Mutability — lists can be changed</span>
+<span class="var">fruits</span>[<span class="num">1</span>] <span class="op">=</span> <span class="str">"mango"</span>
+<span class="fn">print</span>(<span class="var">fruits</span>)              <span class="cmt"># ['apple', 'mango', 'cherry']</span>
+
+<span class="cmt"># List methods</span>
+<span class="var">fruits</span>.<span class="fn">append</span>(<span class="str">"grapes"</span>)
+<span class="fn">print</span>(<span class="var">fruits</span>)              <span class="cmt"># ['apple', 'mango', 'cherry', 'grapes']</span>
+<span class="var">fruits</span>.<span class="fn">remove</span>(<span class="str">"mango"</span>)
+<span class="fn">print</span>(<span class="var">fruits</span>)              <span class="cmt"># ['apple', 'cherry', 'grapes']</span>
+<span class="fn">print</span>(<span class="fn">len</span>(<span class="var">fruits</span>))         <span class="cmt"># 3</span>
+<span class="fn">print</span>(<span class="fn">sorted</span>(<span class="var">fruits</span>))      <span class="cmt"># ['apple', 'cherry', 'grapes']</span></pre></div>
+  </div>
+  <div class="output-block"><pre>apple
+cherry
+[20, 30, 40]
+['apple', 'mango', 'cherry']
+['apple', 'mango', 'cherry', 'grapes']
+['apple', 'cherry', 'grapes']
+3
+['apple', 'cherry', 'grapes']</pre></div>
+
+  <!-- type() examples -->
+  <div class="code-block">
+    <div class="code-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><span class="code-title">Checking Types with type()</span></div>
+    <div class="code-body"><pre><span class="fn">print</span>(<span class="fn">type</span>(<span class="num">42</span>))           <span class="cmt"># &lt;class 'int'&gt;</span>
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="num">3.14</span>))         <span class="cmt"># &lt;class 'float'&gt;</span>
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="kw">True</span>))          <span class="cmt"># &lt;class 'bool'&gt;</span>
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="str">"hello"</span>))       <span class="cmt"># &lt;class 'str'&gt;</span>
+<span class="fn">print</span>(<span class="fn">type</span>([<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>]))      <span class="cmt"># &lt;class 'list'&gt;</span>
+
+<span class="cmt"># Type conversion (casting)</span>
+<span class="fn">print</span>(<span class="fn">int</span>(<span class="str">"100"</span>))          <span class="cmt"># 100  (str → int)</span>
+<span class="fn">print</span>(<span class="fn">float</span>(<span class="num">7</span>))            <span class="cmt"># 7.0  (int → float)</span>
+<span class="fn">print</span>(<span class="fn">str</span>(<span class="num">3.14</span>))           <span class="cmt"># "3.14" (float → str)</span>
+<span class="fn">print</span>(<span class="fn">list</span>(<span class="str">"hello"</span>))       <span class="cmt"># ['h','e','l','l','o']</span></pre></div>
+  </div>
+  <div class="output-block"><pre>&lt;class 'int'&gt;
+&lt;class 'float'&gt;
+&lt;class 'bool'&gt;
+&lt;class 'str'&gt;
+&lt;class 'list'&gt;
+100
+7.0
+3.14
+['h', 'e', 'l', 'l', 'o']</pre></div>
+</div>
+
+<!-- ═══════════════════════════════ 4. VARIABLES ══════════════════════════════ -->
+<div class="section" id="variables">
+  <div class="section-label">Chapter 04</div>
+  <h2>Variables</h2>
+
+  <div class="theory">
+    <p>A <strong>variable</strong> is a named container that stores a value in memory. In Python, you create a variable simply by assigning a value to a name using the <code>=</code> operator. There is no need to declare the type first.</p>
+    <p>Python variable naming rules:</p>
+    <ul>
+      <li>Must start with a letter (a–z, A–Z) or underscore (<code>_</code>)</li>
+      <li>Can contain letters, digits, and underscores</li>
+      <li>Case-sensitive: <code>age</code> ≠ <code>Age</code> ≠ <code>AGE</code></li>
+      <li>Cannot use Python keywords (<code>if</code>, <code>for</code>, <code>True</code>, etc.)</li>
+      <li>Convention: use <code>snake_case</code> for multi-word names</li>
+    </ul>
+    <p>Python is <em>dynamically typed</em>: a variable can hold any type and can change type.</p>
+  </div>
+
+  <div class="code-block">
+    <div class="code-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><span class="code-title">Example 1 – Creating and Using Variables</span></div>
+    <div class="code-body"><pre><span class="cmt"># Simple variable assignment</span>
+<span class="var">student_name</span>  <span class="op">=</span> <span class="str">"Rahul"</span>
+<span class="var">student_age</span>   <span class="op">=</span> <span class="num">19</span>
+<span class="var">cgpa</span>          <span class="op">=</span> <span class="num">8.75</span>
+<span class="var">is_enrolled</span>   <span class="op">=</span> <span class="kw">True</span>
+
+<span class="fn">print</span>(<span class="str">f"Name  : <span class="op">{</span><span class="var">student_name</span><span class="op">}</span>"</span>)
+<span class="fn">print</span>(<span class="str">f"Age   : <span class="op">{</span><span class="var">student_age</span><span class="op">}</span>"</span>)
+<span class="fn">print</span>(<span class="str">f"CGPA  : <span class="op">{</span><span class="var">cgpa</span><span class="op">}</span>"</span>)
+<span class="fn">print</span>(<span class="str">f"Active: <span class="op">{</span><span class="var">is_enrolled</span><span class="op">}</span>"</span>)</pre></div>
+  </div>
+  <div class="output-block"><pre>Name  : Rahul
+Age   : 19
+CGPA  : 8.75
+Active: True</pre></div>
+
+  <div class="code-block">
+    <div class="code-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><span class="code-title">Example 2 – Dynamic Typing</span></div>
+    <div class="code-body"><pre><span class="var">x</span> <span class="op">=</span> <span class="num">10</span>           <span class="cmt"># x is int</span>
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="var">x</span>))   <span class="cmt"># &lt;class 'int'&gt;</span>
+
+<span class="var">x</span> <span class="op">=</span> <span class="str">"Python"</span>    <span class="cmt"># now x is str</span>
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="var">x</span>))   <span class="cmt"># &lt;class 'str'&gt;</span>
+
+<span class="var">x</span> <span class="op">=</span> [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>]    <span class="cmt"># now x is list</span>
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="var">x</span>))   <span class="cmt"># &lt;class 'list'&gt;</span></pre></div>
+  </div>
+  <div class="output-block"><pre>&lt;class 'int'&gt;
+&lt;class 'str'&gt;
+&lt;class 'list'&gt;</pre></div>
+
+  <div class="code-block">
+    <div class="code-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><span class="code-title">Example 3 – Multiple Assignment &amp; Swapping</span></div>
+    <div class="code-body"><pre><span class="cmt"># Assign multiple variables at once</span>
+<span class="var">a</span>, <span class="var">b</span>, <span class="var">c</span> <span class="op">=</span> <span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>
+<span class="fn">print</span>(<span class="var">a</span>, <span class="var">b</span>, <span class="var">c</span>)   <span class="cmt"># 1 2 3</span>
+
+<span class="cmt"># Same value to multiple variables</span>
+<span class="var">x</span> <span class="op">=</span> <span class="var">y</span> <span class="op">=</span> <span class="var">z</span> <span class="op">=</span> <span class="num">0</span>
+<span class="fn">print</span>(<span class="var">x</span>, <span class="var">y</span>, <span class="var">z</span>)   <span class="cmt"># 0 0 0</span>
+
+<span class="cmt"># Swapping (Pythonic way — no temp variable needed!)</span>
+<span class="var">p</span>, <span class="var">q</span> <span class="op">=</span> <span class="num">100</span>, <span class="num">200</span>
+<span class="fn">print</span>(<span class="str">"Before:"</span>, <span class="var">p</span>, <span class="var">q</span>)   <span class="cmt"># 100 200</span>
+<span class="var">p</span>, <span class="var">q</span> <span class="op">=</span> <span class="var">q</span>, <span class="var">p</span>
+<span class="fn">print</span>(<span class="str">"After :"</span>, <span class="var">p</span>, <span class="var">q</span>)   <span class="cmt"># 200 100</span></pre></div>
+  </div>
+  <div class="output-block"><pre>1 2 3
+0 0 0
+Before: 100 200
+After : 200 100</pre></div>
+
+  <div class="callout warn">
+    <span class="callout-icon">⚠️</span>
+    <div class="callout-body"><strong>Reserved Keywords</strong> You cannot use Python keywords as variable names. Examples: <code>if</code>, <code>else</code>, <code>for</code>, <code>while</code>, <code>True</code>, <code>False</code>, <code>None</code>, <code>and</code>, <code>or</code>, <code>not</code>, <code>import</code>, <code>return</code>, <code>class</code>, <code>def</code>. Run <code>import keyword; print(keyword.kwlist)</code> to see all 35.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ 5. EXPRESSIONS ═══════════════════════════ -->
+<div class="section" id="expressions">
+  <div class="section-label">Chapter 05</div>
+  <h2>Expressions</h2>
+
+  <div class="theory">
+    <p>An <strong>expression</strong> is any combination of values, variables, and operators that Python can evaluate to produce a result. Expressions can be as simple as a single number (<code>42</code>) or as complex as a multi-step formula.</p>
+    <p>Types of expressions in Python:</p>
+    <ul>
+      <li><strong>Arithmetic Expressions</strong> — use math operators: <code>+  -  *  /  //  %  **</code></li>
+      <li><strong>Comparison Expressions</strong> — compare two values: <code>==  !=  &lt;  &gt;  &lt;=  &gt;=</code></li>
+      <li><strong>Logical Expressions</strong> — combine boolean values: <code>and  or  not</code></li>
+      <li><strong>String Expressions</strong> — concatenation, repetition</li>
+    </ul>
+  </div>
+
+  <div class="code-block">
+    <div class="code-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><span class="code-title">Arithmetic Expressions</span></div>
+    <div class="code-body"><pre><span class="var">a</span>, <span class="var">b</span> <span class="op">=</span> <span class="num">17</span>, <span class="num">5</span>
+
+<span class="fn">print</span>(<span class="var">a</span> <span class="op">+</span>  <span class="var">b</span>)   <span class="cmt"># 22  (addition)</span>
+<span class="fn">print</span>(<span class="var">a</span> <span class="op">-</span>  <span class="var">b</span>)   <span class="cmt"># 12  (subtraction)</span>
+<span class="fn">print</span>(<span class="var">a</span> <span class="op">*</span>  <span class="var">b</span>)   <span class="cmt"># 85  (multiplication)</span>
+<span class="fn">print</span>(<span class="var">a</span> <span class="op">/</span>  <span class="var">b</span>)   <span class="cmt"># 3.4 (true division — always float)</span>
+<span class="fn">print</span>(<span class="var">a</span> <span class="op">//</span> <span class="var">b</span>)   <span class="cmt"># 3   (floor division — integer quotient)</span>
+<span class="fn">print</span>(<span class="var">a</span> <span class="op">%</span>  <span class="var">b</span>)   <span class="cmt"># 2   (modulus — remainder)</span>
+<span class="fn">print</span>(<span class="var">a</span> <span class="op">**</span> <span class="var">b</span>)   <span class="cmt"># 1419857 (exponentiation: 17^5)</span>
+
+<span class="cmt"># Practical: check even / odd using modulus</span>
+<span class="fn">print</span>(<span class="num">14</span> <span class="op">%</span> <span class="num">2</span> <span class="op">==</span> <span class="num">0</span>)   <span class="cmt"># True  (14 is even)</span>
+<span class="fn">print</span>(<span class="num">7</span>  <span class="op">%</span> <span class="num">2</span> <span class="op">==</span> <span class="num">0</span>)   <span class="cmt"># False (7 is odd)</span></pre></div>
+  </div>
+  <div class="output-block"><pre>22
+12
+85
+3.4
+3
+2
+1419857
+True
+False</pre></div>
+
+  <div class="code-block">
+    <div class="code-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><span class="code-title">Comparison Expressions</span></div>
+    <div class="code-body"><pre><span class="var">x</span>, <span class="var">y</span> <span class="op">=</span> <span class="num">10</span>, <span class="num">20</span>
+
+<span class="fn">print</span>(<span class="var">x</span> <span class="op">==</span> <span class="var">y</span>)   <span class="cmt"># False (equal to)</span>
+<span class="fn">print</span>(<span class="var">x</span> <span class="op">!=</span> <span class="var">y</span>)   <span class="cmt"># True  (not equal to)</span>
+<span class="fn">print</span>(<span class="var">x</span> <span class="op">&lt;</span>  <span class="var">y</span>)   <span class="cmt"># True  (less than)</span>
+<span class="fn">print</span>(<span class="var">x</span> <span class="op">&gt;</span>  <span class="var">y</span>)   <span class="cmt"># False (greater than)</span>
+<span class="fn">print</span>(<span class="var">x</span> <span class="op">&lt;=</span> <span class="var">y</span>)   <span class="cmt"># True  (less than or equal)</span>
+<span class="fn">print</span>(<span class="var">x</span> <span class="op">&gt;=</span> <span class="var">y</span>)   <span class="cmt"># False (greater than or equal)</span>
+
+<span class="cmt"># Chained comparisons (unique to Python!)</span>
+<span class="var">marks</span> <span class="op">=</span> <span class="num">75</span>
+<span class="fn">print</span>(<span class="num">50</span> <span class="op">&lt;=</span> <span class="var">marks</span> <span class="op">&lt;=</span> <span class="num">100</span>)   <span class="cmt"># True</span></pre></div>
+  </div>
+  <div class="output-block"><pre>False
+True
+True
+False
+True
+False
+True</pre></div>
+
+  <div class="code-block">
+    <div class="code-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><span class="code-title">Logical Expressions</span></div>
+    <div class="code-body"><pre><span class="var">age</span>     <span class="op">=</span> <span class="num">20</span>
+<span class="var">has_id</span>  <span class="op">=</span> <span class="kw">True</span>
+<span class="var">is_vip</span>  <span class="op">=</span> <span class="kw">False</span>
+
+<span class="cmt"># and: both must be True</span>
+<span class="fn">print</span>(<span class="var">age</span> <span class="op">&gt;=</span> <span class="num">18</span> <span class="kw">and</span> <span class="var">has_id</span>)    <span class="cmt"># True</span>
+
+<span class="cmt"># or: at least one must be True</span>
+<span class="fn">print</span>(<span class="var">age</span> <span class="op">&gt;=</span> <span class="num">18</span> <span class="kw">or</span>  <span class="var">is_vip</span>)    <span class="cmt"># True</span>
+
+<span class="cmt"># not: inverts</span>
+<span class="fn">print</span>(<span class="kw">not</span> <span class="var">is_vip</span>)               <span class="cmt"># True</span>
+
+<span class="cmt"># Combined logic</span>
+<span class="var">can_enter</span> <span class="op">=</span> (<span class="var">age</span> <span class="op">&gt;=</span> <span class="num">18</span> <span class="kw">and</span> <span class="var">has_id</span>) <span class="kw">or</span> <span class="var">is_vip</span>
+<span class="fn">print</span>(<span class="str">"Can enter:"</span>, <span class="var">can_enter</span>)   <span class="cmt"># True</span></pre></div>
+  </div>
+  <div class="output-block"><pre>True
+True
+True
+Can enter: True</pre></div>
+</div>
+
+<!-- ═══════════════════════════════ 6. STATEMENTS ════════════════════════════ -->
+<div class="section" id="statements">
+  <div class="section-label">Chapter 06</div>
+  <h2>Statements</h2>
+
+  <div class="theory">
+    <p>A <strong>statement</strong> is a complete instruction that Python can execute. Unlike an expression (which produces a value), a statement performs an action. Common types include:</p>
+    <ul>
+      <li><strong>Assignment statement</strong> — stores a value in a variable</li>
+      <li><strong>Print statement</strong> — outputs data to the console</li>
+      <li><strong>Conditional statement</strong> — makes decisions (<code>if / elif / else</code>)</li>
+      <li><strong>Augmented assignment</strong> — shorthand for updating a variable</li>
+      <li><strong>Import statement</strong> — loads external modules</li>
+    </ul>
+    <p>Each logical line in Python is typically one statement. Use a semicolon (<code>;</code>) to put multiple statements on one line (uncommon), or backslash (<code>\</code>) to continue a statement across lines.</p>
+  </div>
+
+  <div class="code-block">
+    <div class="code-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><span class="code-title">Assignment Statements</span></div>
+    <div class="code-body"><pre><span class="cmt"># Basic assignment</span>
+<span class="var">price</span> <span class="op">=</span> <span class="num">100</span>
+
+<span class="cmt"># Augmented assignment operators</span>
+<span class="var">price</span> <span class="op">+=</span> <span class="num">50</span>     <span class="cmt"># price = price + 50  → 150</span>
+<span class="var">price</span> <span class="op">-=</span> <span class="num">20</span>     <span class="cmt"># price = price - 20  → 130</span>
+<span class="var">price</span> <span class="op">*=</span> <span class="num">2</span>      <span class="cmt"># price = price * 2   → 260</span>
+<span class="var">price</span> <span class="op">//=</span> <span class="num">3</span>     <span class="cmt"># price = price // 3  → 86</span>
+<span class="fn">print</span>(<span class="var">price</span>)    <span class="cmt"># 86</span>
+
+<span class="cmt"># Multiple statements on one line (not recommended)</span>
+<span class="var">a</span> <span class="op">=</span> <span class="num">1</span>; <span class="var">b</span> <span class="op">=</span> <span class="num">2</span>; <span class="fn">print</span>(<span class="var">a</span> <span class="op">+</span> <span class="var">b</span>)   <span class="cmt"># 3</span>
+
+<span class="cmt"># Line continuation</span>
+<span class="var">total</span> <span class="op">=</span> <span class="num">100</span> <span class="op">+</span> <span class="num">200</span> \
+      <span class="op">+</span> <span class="num">300</span> <span class="op">+</span> <span class="num">400</span>
+<span class="fn">print</span>(<span class="var">total</span>)    <span class="cmt"># 1000</span></pre></div>
+  </div>
+  <div class="output-block"><pre>86
+3
+1000</pre></div>
+
+  <div class="code-block">
+    <div class="code-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><span class="code-title">Conditional Statements (if / elif / else)</span></div>
+    <div class="code-body"><pre><span class="var">marks</span> <span class="op">=</span> <span class="num">72</span>
+
+<span class="kw">if</span> <span class="var">marks</span> <span class="op">&gt;=</span> <span class="num">90</span>:
+    <span class="fn">print</span>(<span class="str">"Grade: A+"</span>)
+<span class="kw">elif</span> <span class="var">marks</span> <span class="op">&gt;=</span> <span class="num">75</span>:
+    <span class="fn">print</span>(<span class="str">"Grade: A"</span>)
+<span class="kw">elif</span> <span class="var">marks</span> <span class="op">&gt;=</span> <span class="num">60</span>:
+    <span class="fn">print</span>(<span class="str">"Grade: B"</span>)
+<span class="kw">elif</span> <span class="var">marks</span> <span class="op">&gt;=</span> <span class="num">50</span>:
+    <span class="fn">print</span>(<span class="str">"Grade: C"</span>)
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="str">"Grade: F — Please reappear"</span>)
+
+<span class="cmt"># One-line (ternary) if statement</span>
+<span class="var">status</span> <span class="op">=</span> <span class="str">"Pass"</span> <span class="kw">if</span> <span class="var">marks</span> <span class="op">&gt;=</span> <span class="num">50</span> <span class="kw">else</span> <span class="str">"Fail"</span>
+<span class="fn">print</span>(<span class="var">status</span>)</pre></div>
+  </div>
+  <div class="output-block"><pre>Grade: B
+Pass</pre></div>
+
+  <div class="code-block">
+    <div class="code-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><span class="code-title">Import Statements</span></div>
+    <div class="code-body"><pre><span class="kw">import</span> math
+
+<span class="fn">print</span>(math.<span class="fn">sqrt</span>(<span class="num">144</span>))     <span class="cmt"># 12.0</span>
+<span class="fn">print</span>(math.<span class="fn">pi</span>)            <span class="cmt"># 3.141592653589793</span>
+<span class="fn">print</span>(math.<span class="fn">factorial</span>(<span class="num">5</span>))  <span class="cmt"># 120</span>
+
+<span class="kw">from</span> random <span class="kw">import</span> randint
+<span class="fn">print</span>(<span class="fn">randint</span>(<span class="num">1</span>, <span class="num">100</span>))    <span class="cmt"># random number 1–100</span></pre></div>
+  </div>
+  <div class="output-block"><pre>12.0
+3.141592653589793
+120
+47   ← (random each run)</pre></div>
+</div>
+
+<!-- ═══════════════════════════════ 7. TUPLE ASSIGNMENT ══════════════════════ -->
+<div class="section" id="tuple">
+  <div class="section-label">Chapter 07</div>
+  <h2>Tuple Assignment</h2>
+
+  <div class="theory">
+    <p>A <strong>tuple</strong> is an ordered, <em>immutable</em> sequence of values enclosed in parentheses (or even without them). Unlike lists, tuples cannot be modified after creation.</p>
+    <p><strong>Tuple assignment</strong> (also called <em>unpacking</em>) lets you assign multiple variables from a tuple in a single statement. Python matches positions: the first value goes to the first variable, and so on. The number of variables must exactly match the number of values (unless you use <code>*</code>).</p>
+    <p>This is one of Python's most elegant features, widely used for returning multiple values from functions, swapping variables, and iterating over paired data.</p>
+  </div>
+
+  <div class="concept-grid" style="grid-template-columns:1fr 1fr;">
+    <div class="concept-card">
+      <div class="type-badge badge-tuple">tuple</div>
+      <h4>Immutable</h4>
+      <p>Cannot be changed after creation. Elements cannot be added, removed, or modified.</p>
+    </div>
+    <div class="concept-card">
+      <div class="type-badge badge-list">list</div>
+      <h4>Mutable</h4>
+      <p>Can be changed. Elements can be added, removed, or modified at any time.</p>
+    </div>
+  </div>
+
+  <div class="code-block">
+    <div class="code-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><span class="code-title">Creating Tuples</span></div>
+    <div class="code-body"><pre><span class="var">point</span>   <span class="op">=</span> (<span class="num">3</span>, <span class="num">7</span>)                        <span class="cmt"># 2-element tuple</span>
+<span class="var">rgb</span>     <span class="op">=</span> (<span class="num">255</span>, <span class="num">128</span>, <span class="num">0</span>)                 <span class="cmt"># colour</span>
+<span class="var">info</span>    <span class="op">=</span> (<span class="str">"Alice"</span>, <span class="num">21</span>, <span class="str">"Mumbai"</span>)         <span class="cmt"># mixed types</span>
+<span class="var">single</span>  <span class="op">=</span> (<span class="num">42</span>,)                           <span class="cmt"># single element — comma needed!</span>
+<span class="var">no_paren</span> <span class="op">=</span> <span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>                      <span class="cmt"># parentheses optional</span>
+
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="var">point</span>))    <span class="cmt"># &lt;class 'tuple'&gt;</span>
+<span class="fn">print</span>(<span class="var">point</span>[<span class="num">0</span>])      <span class="cmt"># 3</span>
+<span class="fn">print</span>(<span class="fn">len</span>(<span class="var">info</span>))     <span class="cmt"># 3</span></pre></div>
+  </div>
+  <div class="output-block"><pre>&lt;class 'tuple'&gt;
+3
+3</pre></div>
+
+  <div class="code-block">
+    <div class="code-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><span class="code-title">Tuple Assignment / Unpacking</span></div>
+    <div class="code-body"><pre><span class="cmt"># Basic unpacking</span>
+<span class="var">x</span>, <span class="var">y</span> <span class="op">=</span> (<span class="num">10</span>, <span class="num">20</span>)
+<span class="fn">print</span>(<span class="var">x</span>, <span class="var">y</span>)          <span class="cmt"># 10 20</span>
+
+<span class="cmt"># Unpack student info</span>
+<span class="var">name</span>, <span class="var">age</span>, <span class="var">city</span> <span class="op">=</span> <span class="str">"Priya"</span>, <span class="num">22</span>, <span class="str">"Delhi"</span>
+<span class="fn">print</span>(<span class="str">f"<span class="op">{</span><span class="var">name</span><span class="op">}</span>, <span class="op">{</span><span class="var">age</span><span class="op">}</span>, <span class="op">{</span><span class="var">city</span><span class="op">}</span>"</span>)   <span class="cmt"># Priya, 22, Delhi</span>
+
+<span class="cmt"># Elegant swap using tuple assignment</span>
+<span class="var">a</span>, <span class="var">b</span> <span class="op">=</span> <span class="num">5</span>, <span class="num">10</span>
+<span class="var">a</span>, <span class="var">b</span> <span class="op">=</span> <span class="var">b</span>, <span class="var">a</span>
+<span class="fn">print</span>(<span class="var">a</span>, <span class="var">b</span>)           <span class="cmt"># 10 5</span>
+
+<span class="cmt"># * operator for extended unpacking</span>
+<span class="var">first</span>, <span class="op">*</span><span class="var">rest</span> <span class="op">=</span> [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>]
+<span class="fn">print</span>(<span class="var">first</span>)          <span class="cmt"># 1</span>
+<span class="fn">print</span>(<span class="var">rest</span>)           <span class="cmt"># [2, 3, 4, 5]</span>
+
+<span class="cmt"># Function returning a tuple</span>
+<span class="kw">def</span> <span class="fn">min_max</span>(<span class="var">nums</span>):
+    <span class="kw">return</span> <span class="fn">min</span>(<span class="var">nums</span>), <span class="fn">max</span>(<span class="var">nums</span>)
+
+<span class="var">lo</span>, <span class="var">hi</span> <span class="op">=</span> <span class="fn">min_max</span>([<span class="num">3</span>, <span class="num">9</span>, <span class="num">1</span>, <span class="num">7</span>])
+<span class="fn">print</span>(<span class="str">f"Min: <span class="op">{</span><span class="var">lo</span><span class="op">}</span>, Max: <span class="op">{</span><span class="var">hi</span><span class="op">}</span>"</span>)   <span class="cmt"># Min: 1, Max: 9</span></pre></div>
+  </div>
+  <div class="output-block"><pre>10 20
+Priya, 22, Delhi
+10 5
+1
+[2, 3, 4, 5]
+Min: 1, Max: 9</pre></div>
+
+  <div class="callout tip">
+    <span class="callout-icon">✅</span>
+    <div class="callout-body"><strong>Immutability in action</strong> Trying <code>t = (1, 2, 3); t[0] = 99</code> gives <code>TypeError: 'tuple' object does not support item assignment</code>. Use tuples for data that should not change.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ 8. PRECEDENCE ════════════════════════════ -->
+<div class="section" id="precedence">
+  <div class="section-label">Chapter 08</div>
+  <h2>Precedence of Operators</h2>
+
+  <div class="theory">
+    <p><strong>Operator precedence</strong> determines the order in which operators are evaluated in an expression with multiple operators. Python follows PEMDAS / BODMAS — but with Python-specific additions.</p>
+    <p>Higher precedence operators are evaluated first. When operators have the same precedence, <em>associativity</em> decides the order — most operators are <strong>left-to-right</strong> (left associative), except exponentiation (<code>**</code>) which is <strong>right-to-left</strong>.</p>
+    <p>Always use parentheses to make complex expressions clearer and avoid bugs.</p>
+  </div>
+
+  <table>
+    <tr><th>Priority</th><th>Operator(s)</th><th>Description</th><th>Example → Result</th></tr>
+    <tr><td>1 (highest)</td><td>()</td><td>Parentheses</td><td>(2+3)*4 → 20</td></tr>
+    <tr><td>2</td><td>**</td><td>Exponentiation (right-to-left)</td><td>2**3**2 → 512</td></tr>
+    <tr><td>3</td><td>+x  -x  ~x</td><td>Unary plus, minus, bitwise NOT</td><td>-5 → -5</td></tr>
+    <tr><td>4</td><td>*  /  //  %</td><td>Multiply, divide, floor div, modulo</td><td>10 // 3 → 3</td></tr>
+    <tr><td>5</td><td>+  -</td><td>Addition, subtraction</td><td>5 + 3 → 8</td></tr>
+    <tr><td>6</td><td>&lt;&lt;  &gt;&gt;</td><td>Bitwise shifts</td><td>8 >> 1 → 4</td></tr>
+    <tr><td>7</td><td>&amp;</td><td>Bitwise AND</td><td>5 &amp; 3 → 1</td></tr>
+    <tr><td>8</td><td>^</td><td>Bitwise XOR</td><td>5 ^ 3 → 6</td></tr>
+    <tr><td>9</td><td>|</td><td>Bitwise OR</td><td>5 | 3 → 7</td></tr>
+    <tr><td>10</td><td>==  !=  &lt;  &gt;  &lt;=  &gt;=  in  not in  is</td><td>Comparisons</td><td>5 > 3 → True</td></tr>
+    <tr><td>11</td><td>not</td><td>Logical NOT</td><td>not True → False</td></tr>
+    <tr><td>12</td><td>and</td><td>Logical AND</td><td>True and False → False</td></tr>
+    <tr><td>13 (lowest)</td><td>or</td><td>Logical OR</td><td>True or False → True</td></tr>
+  </table>
+
+  <div class="code-block">
+    <div class="code-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><span class="code-title">Precedence Examples — With and Without Parentheses</span></div>
+    <div class="code-body"><pre><span class="cmt"># Example 1: Arithmetic precedence</span>
+<span class="fn">print</span>(<span class="num">2</span> <span class="op">+</span> <span class="num">3</span> <span class="op">*</span> <span class="num">4</span>)         <span class="cmt"># 14  (*  before +)</span>
+<span class="fn">print</span>((<span class="num">2</span> <span class="op">+</span> <span class="num">3</span>) <span class="op">*</span> <span class="num">4</span>)        <span class="cmt"># 20  (parentheses first)</span>
+
+<span class="cmt"># Example 2: Exponentiation is right-associative</span>
+<span class="fn">print</span>(<span class="num">2</span> <span class="op">**</span> <span class="num">3</span> <span class="op">**</span> <span class="num">2</span>)         <span class="cmt"># 512  (2 ** 9, not 8 ** 2)</span>
+<span class="fn">print</span>((<span class="num">2</span> <span class="op">**</span> <span class="num">3</span>) <span class="op">**</span> <span class="num">2</span>)        <span class="cmt"># 64   (8 ** 2)</span>
+
+<span class="cmt"># Example 3: Mixed operators</span>
+<span class="fn">print</span>(<span class="num">10</span> <span class="op">+</span> <span class="num">6</span> <span class="op">/</span> <span class="num">2</span> <span class="op">-</span> <span class="num">1</span>)      <span class="cmt"># 12.0  (6/2=3 first, then 10+3-1)</span>
+<span class="fn">print</span>(<span class="num">5</span> <span class="op">**</span> <span class="num">2</span> <span class="op">+</span> <span class="num">3</span> <span class="op">*</span> <span class="num">4</span>)      <span class="cmt"># 37  (25 + 12)</span>
+
+<span class="cmt"># Example 4: Logical and comparison mix</span>
+<span class="var">a</span>, <span class="var">b</span>, <span class="var">c</span> <span class="op">=</span> <span class="num">5</span>, <span class="num">10</span>, <span class="num">3</span>
+<span class="fn">print</span>(<span class="var">a</span> <span class="op">&lt;</span> <span class="var">b</span> <span class="kw">and</span> <span class="var">b</span> <span class="op">&gt;</span> <span class="var">c</span>)    <span class="cmt"># True (comparisons before and)</span>
+<span class="fn">print</span>(<span class="kw">not</span> <span class="var">a</span> <span class="op">&gt;</span> <span class="var">c</span> <span class="kw">or</span> <span class="var">b</span> <span class="op">==</span> <span class="num">10</span>) <span class="cmt"># True (not before or)</span>
+
+<span class="cmt"># Example 5: Floor division and modulo</span>
+<span class="fn">print</span>(<span class="num">15</span> <span class="op">%</span> <span class="num">4</span> <span class="op">+</span> <span class="num">2</span>)          <span class="cmt"># 5  (15%4=3, then 3+2)</span>
+<span class="fn">print</span>(<span class="num">15</span> <span class="op">%</span> (<span class="num">4</span> <span class="op">+</span> <span class="num">2</span>))         <span class="cmt"># 3  (4+2=6 first, then 15%6)</span></pre></div>
+  </div>
+  <div class="output-block"><pre>14
+20
+512
+64
+12.0
+37
+True
+True
+5
+3</pre></div>
+</div>
+
+<!-- ═══════════════════════════════ 9. COMMENTS ══════════════════════════════ -->
+<div class="section" id="comments">
+  <div class="section-label">Chapter 09</div>
+  <h2>Comments</h2>
+
+  <div class="theory">
+    <p>A <strong>comment</strong> is text in source code that Python completely ignores during execution. Comments exist solely for human readers — they explain what the code does, why a decision was made, or provide important notes.</p>
+    <p>Python supports two styles of comments:</p>
+    <ul>
+      <li><strong>Single-line comment</strong> — starts with <code>#</code>; everything after <code>#</code> on that line is a comment</li>
+      <li><strong>Multi-line comment (docstring)</strong> — triple quotes <code>"""..."""</code> or <code>'''...'''</code> spanning multiple lines. When placed at the start of a function/class/module, Python treats it as a documentation string (<em>docstring</em>).</li>
+    </ul>
+    <p>Good commenting practices: explain <em>why</em>, not <em>what</em>; keep comments up to date; avoid obvious comments; write <em>self-documenting</em> code first.</p>
+  </div>
+
+  <div class="code-block">
+    <div class="code-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><span class="code-title">Single-Line Comments</span></div>
+    <div class="code-body"><pre><span class="cmt"># This is a full-line comment</span>
+<span class="var">radius</span> <span class="op">=</span> <span class="num">7</span>     <span class="cmt"># inline comment — after the code</span>
+<span class="var">pi</span>     <span class="op">=</span> <span class="num">3.14159</span>
+
+<span class="cmt"># Temporarily disable code during testing</span>
+<span class="var">area</span> <span class="op">=</span> <span class="var">pi</span> <span class="op">*</span> <span class="var">radius</span> <span class="op">**</span> <span class="num">2</span>   <span class="cmt"># πr²</span>
+<span class="cmt"># circumference = 2 * pi * radius   ← disabled</span>
+<span class="fn">print</span>(<span class="str">f"Area = <span class="op">{</span><span class="var">area</span>:<span class="num">.2f</span><span class="op">}</span>"</span>)</pre></div>
+  </div>
+  <div class="output-block"><pre>Area = 153.94</pre></div>
+
+  <div class="code-block">
+    <div class="code-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><span class="code-title">Multi-Line Comments &amp; Docstrings</span></div>
+    <div class="code-body"><pre><span class="str">"""
+Module: calculator.py
+Author: ScholarNest
+Purpose: Demonstrates comments and docstrings in Python
+"""</span>
+
+<span class="kw">def</span> <span class="fn">add</span>(<span class="var">a</span>, <span class="var">b</span>):
+    <span class="str">"""
+    Returns the sum of two numbers.
+
+    Parameters:
+        a (int/float): First number
+        b (int/float): Second number
+
+    Returns:
+        int/float: The sum a + b
+
+    Example:
+        >>> add(3, 4)
+        7
+    """</span>
+    <span class="kw">return</span> <span class="var">a</span> <span class="op">+</span> <span class="var">b</span>
+
+<span class="fn">print</span>(<span class="fn">add</span>(<span class="num">3</span>, <span class="num">4</span>))          <span class="cmt"># 7</span>
+<span class="fn">print</span>(<span class="fn">add</span>.<span class="var">__doc__</span>)        <span class="cmt"># prints the docstring</span>
+<span class="fn">help</span>(<span class="fn">add</span>)                 <span class="cmt"># formatted help output</span></pre></div>
+  </div>
+  <div class="output-block"><pre>7
+
+    Returns the sum of two numbers.
+
+    Parameters:
+        a (int/float): First number
+        b (int/float): Second number
+    ...</pre></div>
+
+  <div class="code-block">
+    <div class="code-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><span class="code-title">Comment Best Practices — Good vs Bad</span></div>
+    <div class="code-body"><pre><span class="cmt"># ✗ BAD COMMENT: states the obvious</span>
+<span class="var">age</span> <span class="op">=</span> <span class="num">18</span>   <span class="cmt"># set age to 18</span>
+
+<span class="cmt"># ✓ GOOD COMMENT: explains the reason</span>
+<span class="var">age</span> <span class="op">=</span> <span class="num">18</span>   <span class="cmt"># minimum age required for voting eligibility</span>
+
+
+<span class="cmt"># ✗ BAD: vague comment</span>
+<span class="var">result</span> <span class="op">=</span> <span class="var">x</span> <span class="op">*</span> <span class="num">1.18</span>   <span class="cmt"># multiply</span>
+
+<span class="cmt"># ✓ GOOD: explains the formula</span>
+<span class="var">result</span> <span class="op">=</span> <span class="var">x</span> <span class="op">*</span> <span class="num">1.18</span>   <span class="cmt"># apply 18% GST to the base price</span>
+
+
+<span class="cmt"># TODO and FIXME are widely recognised comment markers</span>
+<span class="cmt"># TODO: add input validation for negative prices</span>
+<span class="cmt"># FIXME: the discount calculation is incorrect for bundles</span>
+
+<span class="fn">print</span>(<span class="str">"Comments are for humans, not machines!"</span>)</pre></div>
+  </div>
+  <div class="output-block"><pre>Comments are for humans, not machines!</pre></div>
+</div>
+
+<hr class="fancy">
+
+<!-- SUMMARY TABLE -->
+<div class="section">
+  <div class="section-label">Quick Reference</div>
+  <h2>All Topics at a Glance</h2>
+  <table>
+    <tr><th>Topic</th><th>Key Concept</th><th>Quick Example</th></tr>
+    <tr><td>int</td><td>Whole numbers</td><td>x = 42</td></tr>
+    <tr><td>float</td><td>Decimal numbers</td><td>pi = 3.14</td></tr>
+    <tr><td>bool</td><td>True / False</td><td>flag = True</td></tr>
+    <tr><td>str</td><td>Text in quotes</td><td>name = "Py"</td></tr>
+    <tr><td>list</td><td>Ordered, mutable</td><td>[1, 2, 3]</td></tr>
+    <tr><td>tuple</td><td>Ordered, immutable</td><td>(1, 2, 3)</td></tr>
+    <tr><td>Variable</td><td>Named storage</td><td>age = 20</td></tr>
+    <tr><td>Expression</td><td>Evaluates to a value</td><td>2 + 3 * 4</td></tr>
+    <tr><td>Statement</td><td>Performs an action</td><td>print("hi")</td></tr>
+    <tr><td>Tuple assignment</td><td>Unpack multiple values</td><td>a, b = 1, 2</td></tr>
+    <tr><td>Precedence</td><td>() &gt; ** &gt; */ &gt; +- &gt; cmp &gt; not &gt; and &gt; or</td><td>2+3*4 = 14</td></tr>
+    <tr><td>Comment</td><td>Human-readable note</td><td># This is a note</td></tr>
+  </table>
+</div>
+
+</div><!-- /content -->
+
+<footer>
+  <div style="margin-bottom:.6rem;">
+    <span style="font-size:1rem;font-weight:700;color:var(--text);">Scholar<span style="color:var(--accent)">Nest</span></span>
+  </div>
+  <p>Python Fundamentals — Unit 1 Notes &nbsp;·&nbsp; <a href="https://scholarnest21.netlify.app" target="_blank">scholarnest21.netlify.app</a></p>
+  <p style="margin-top:.4rem;font-size:.75rem;">© 2026 ScholarNest. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
